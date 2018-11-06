@@ -34,7 +34,15 @@ function formatAttrs(attributes, opts) {
 
     output += key;
     if ((value !== null && value !== '') || opts.xmlMode) {
-        output += '="' + (opts.decodeEntities ? entities.encodeXML(value) : value) + '"';
+      var attributeValue
+      if (!opts.decodeEntities) attributeValue = value
+      else {
+        if (opts.keepNonAscii) {
+          attributeValue = entities.encodeXMLKeepNonAscii(value)
+        }
+        else attributeValue = entities.encodeXML(value)
+      }
+      output += '="' + attributeValue + '"';
     }
   }
 
@@ -133,7 +141,8 @@ function renderText(elem, opts) {
 
   // if entities weren't decoded, no need to encode them back
   if (opts.decodeEntities && !(elem.parent && elem.parent.name in unencodedElements)) {
-    data = entities.encodeXML(data);
+    if (opts.keepNonAscii) data = entities.encodeXMLKeepNonAscii(data)
+    else data = entities.encodeXML(data);
   }
 
   return data;

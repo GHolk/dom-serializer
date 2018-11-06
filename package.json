@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "domelementtype": "~1.3.0",
-    "entities": "~1.1.1"
+    "entities": "git+https://github.com/GHolk/entities"
   },
   "devDependencies": {
     "cheerio": "*",
